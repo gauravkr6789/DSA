@@ -1,42 +1,27 @@
-#include <iostream>
-#include <stack>
+#include<iostream>
+#include<stack>
 using namespace std;
-bool checkParatheses(string s)
-{
-    int n = s.length();
-    stack<char> st;
-    for (int i = 0; i < n; i++)
-    {
-        char ch = s[i];
-        if (ch == '(' || ch == '{' || ch == '[')
-        {
+bool isvalidparatheses(string s){
+    stack<char>st;
+    for(int i=0;i<s.length();i++){
+        char ch=s[i];
+        if(ch == '(' || ch == '{' || ch == '['){
             st.push(ch);
         }
-        else if (ch == ')' || ch == '}' || ch == ']')
-        {
-            if (st.empty())
-            {
+        else if(ch == ')' || ch == ']' || ch == '}'){
+            if(st.empty()){
                 return false;
             }
-            char top = st.top();
-            if ((ch == ')' && top == '(') || (ch == '}' && top == '{') || (ch == ']' && top == '['))
-            {
-                return true;
+            if(ch == ')' && st.top() == '(' ||ch == '}' && st.top() == '{'|| ch == ']' && st.top() == '[' ){
+                st.pop();
             }
-            st.pop();
         }
     }
     return st.empty();
 }
+
 int main(){
-    string input;
-    cout << "Enter parentheses string: ";
-    cin >> input;
-
-    if(checkParatheses(input))
-        cout << "Balanced" << endl;
-    else
-        cout << "Not Balanced" << endl;
-
-    return 0;
+    string s="(";
+    bool result=isvalidparatheses(s);
+    cout<<"valid or not ? : "<<result;
 }

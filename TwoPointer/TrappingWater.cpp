@@ -1,40 +1,99 @@
-#include <iostream>
+/*#include <iostream>
 #include <vector>
 using namespace std;
-int TrappingWater(int arr[],int n){
-    int left=0;
-    int right=n-1;
-    int left_max=0;
-    int right_max=0;
-    int water_Trap=0;
-    while(left < right){
-        if(arr[left] < arr[right]){
-            if(arr[left] >= left_max){
-                left_max=arr[left];
-            }
-            else{
-                water_Trap+=left_max-arr[left];
-            }
+int trappingRainWater(int arr[],int n){
+    int result=0;
+
+    for(int i=1;i<n;i++){
+        int leftmax=arr[i];
+        for(int j=0;j<i;j++){
+            leftmax=max(leftmax,arr[j]);
+        }
+        int rightmax=arr[i];
+        for(int j=i+1;j<n;j++){
+            rightmax=max(rightmax,arr[j]);
+        }
+
+        result+=(min(leftmax,rightmax)-arr[i]);
+    }
+    return result;
+
+}
+
+int main(){
+    int arr[]={2, 1, 5, 3, 1, 0, 4};
+    int n=sizeof(arr)/sizeof(arr[0]);
+    int ans=trappingRainWater(arr,n);
+    cout<<"trapping water is : "<<ans;
+}*/
+
+// prefix sum approach
+
+/*#include <iostream>
+#include <vector>
+using namespace std;
+int traippingWater(int arr[], int n)
+{
+    vector<int> leftmax(n, 0);
+    vector<int> rightmax(n, 0);
+    leftmax[0]=arr[0];
+    for(int i=1;i<n;i++){
+        leftmax[i]=max(leftmax[i-1],arr[i]);
+    }
+
+    rightmax[n-1]=arr[n-1];
+
+    for(int i=n-2;i>=0;i--){
+        rightmax[i]=max(rightmax[i+1],arr[i]);
+    }
+
+    int result=0;
+    for(int i=1;i<n;i++){
+        result+=min(leftmax[i],rightmax[i])-arr[i];
+    }
+    return result;
+}
+
+int main()
+{
+    int arr[] = {2, 1, 5, 3, 1, 0, 4};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int ans=traippingWater(arr,n);
+    cout<<"trapping water : "<<ans;
+}*/
+
+#include <iostream>
+using namespace std;
+int traippingWater(int arr[], int n)
+{
+    int leftmax = 0;
+    int rightmax = 0;
+    int left = 0;
+    int right = n - 1;
+    int result = 0;
+
+    while (left < right)
+    {
+        leftmax = max(leftmax, arr[left]);
+        rightmax = max(rightmax, arr[right]);
+
+        if (leftmax < rightmax)
+        {
+            result += leftmax - arr[left];
             left++;
         }
-        else{
-            if(arr[right] >= right_max){
-                right_max=arr[right];
-            }
-            else{
-                 water_Trap+=right_max-arr[right];
-            }
+        else
+        {
+            result += rightmax - arr[right];
             right--;
         }
-
     }
-    return water_Trap;
-    
+    return result;
 }
-int main(){
-    int arr[]={0,1,0,2,1,0,1,3,2,1,2,1};
-    int size=sizeof(arr)/sizeof(arr[0]);
-    int result=TrappingWater(arr,size);
-    cout<<"trap water : "<<result;
+int main()
+{
+    int arr[] = {2, 1, 5, 3, 1, 0, 4};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int ans = traippingWater(arr, n);
+    cout << "trapping water : " << ans;
 }
-

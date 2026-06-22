@@ -1,2 +1,4 @@
 
-    head->next->next=new node(3);
+    deletenode(head);
+    print(head);
+}
